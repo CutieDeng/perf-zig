@@ -3,6 +3,22 @@ pub const PerfEventAttr = packed struct {
         sample_period: u64,
         sample_freq: u64,
     };
+    const WakeupValue = packed union {
+        wakeup_events: u32,    
+        wakeup_watermark: u32, 
+    };
+    const BpValue = packed union {
+        bp_addr: u64,
+        kprobe_func: u64,
+        uprobe_path: u64,
+        config1: u64,
+    };
+    const BpValue2 = packed union {
+        bp_len: u64,
+        kprobe_addr: u64,
+        probe_offset: u64,
+        config2: u64,
+    };
     
     @"type": u32,
     size: u32,
@@ -49,5 +65,20 @@ pub const PerfEventAttr = packed struct {
     text_poke: u1,
     __reserved_1: u30 = 0,
     
+    wakeup_v: WakeupValue,
     
+    bp_type: u32,
+    bp_v: BpValue,
+    bp_v2: BpValue2,
+    branch_sample_type: u64,
+
+    sample_regs_user: u64,
+    sample_stack_user: u32,
+    clockid: u32,
+    sample_regs_intr: u64,
+    aux_watermark: u32,
+    sample_max_stack: u16,
+    __reserved_2: u16 = 0,
+    aux_sample_size: u32,
+    __reserved_3: u32 = 0,
 };
